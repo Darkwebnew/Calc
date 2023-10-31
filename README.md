@@ -28,256 +28,143 @@ Publish the website in the given URL.
 ## PROGRAM :
 ```
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Simple Calculator</title>
+<html lang="en">
+<head>
+    <title>Calculator</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
     <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
+        body {
+            background-color: #424242;
+            font-family: Tahoma;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-      #calculator-container {
-        background-color: #f0f0f0;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        width: 300px; /* Adjust container width for better alignment */
-      }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+        }
 
-      input[type="text"] {
-        width: calc(100% - 20px); /* Adjust input width and add padding */
-        padding: 10px;
-        margin: 5px 0;
-        color: black;
-        font-size: 16px; /* Change font size for better fit */
-      }
+        #container {
+            width: 200px;
+            padding: 8px 8px 20px 8px;
+            margin: 20px auto;
+            background-color: #ABABAB;
+            border-radius: 4px;
+            border: 2px solid #C1C1C1;
+            box-shadow: -3px 3px 7px rgba(0, 0, 0, 0.6), inset -100px 0px 100px rgba(255, 255, 255, 0.5);
+        }
 
-      table {
-        margin-top: 10px;
-        width: 100%; /* Ensure the table takes full width */
-      }
+        #display {
+            display: block;
+            margin: 15px auto;
+            height: 42px;
+            width: 227px;
+            padding: 0 10px;
+            border-radius: 4px;
+            border: 2px solid #C1C1C1;
+            background-color: #FFF;
+            box-shadow: inset 0px 0px 10px #030303, inset 0px -20px 1px rgba(150, 150, 150, 0.2);
+            font-size: 28px;
+            color: #666;
+            text-align: right;
+            font-weight: 400;
+        }
 
-      td {
-        text-align: center; /* Center align the buttons */
-        padding: 5px; /* Add padding for space between buttons */
-      }
+        .button {
+            display: inline-block;
+            margin: 2px;
+            width: 42px;
+            height: 42px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
 
-      button {
-        padding: 10px 5px; /* Adjust button size for a more compact look */
-        font-size: 16px; /* Change button font size for better fit */
-        width: 100%; /* Make buttons fill the table cells */
-      }
+        .mathButtons {
+            margin: 2px 2px 6px 2px;
+            color: #FFF;
+            text-shadow: -1px -1px 0px #44006F;
+            background-color: #434343;
+            border: 2px solid #C1C1C1;
+            box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #2E2E2E;
+        }
+
+        .digits {
+            color: #181818;
+            text-shadow: 1px 1px 0px #FFF;
+            background-color: #EBEBEB;
+            border: 2px solid #FFF;
+            box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #DCDCDC;
+        }
+
+        .digits:hover,
+        .mathButtons:hover,
+        #clearButton:hover {
+            background-color: #FFBA75;
+            box-shadow: 0px 0px 2px #FFBA75, inset 0px -20px 1px #FF8000;
+            border: 2px solid #FFF;
+        }
+
+        #clearButton {
+            color: #FFF;
+            text-shadow: -1px -1px 0px #44006F;
+            background-color: #D20000;
+            border: 2px solid #FF8484;
+            box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #B00000;
+        }
+
+        .equalsButton {
+            background-color: #4CAF50; /* Green color */
+        }
+
+        .equalsButton:hover {
+            background-color: #66BB6A; /* Lighter green on hover */
+            box-shadow: 0px 0px 2px #66BB6A, inset 0px -20px 1px #4CAF50;
+            border: 2px solid #FFF;
+        }
     </style>
-  </head>
-  <body>
-    <div id="calculator-container">
-      <h1>Calculator</h1>
-      <input
-        type="text"
-        id="display"
-        readonly
-        onkeypress="handleKeyPress(event)"
-      />
-      <table>
-        <tr>
-          <td><button onclick="appendToDisplay('7')">7</button></td>
-          <td><button onclick="appendToDisplay('8')">8</button></td>
-          <td><button onclick="appendToDisplay('9')">9</button></td>
-          <td>
-            <button
-              data-operator="/"
-              onclick="appendToDisplay('/')"
-              style="background-color: blue; color: white"
-            >
-              /
-            </button>
-          </td>
-          <td>
-            <button
-              data-operator="±"
-              onclick="toggleSign()"
-              style="background-color: cyan; color: black"
-            >
-              ±
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td><button onclick="appendToDisplay('4')">4</button></td>
-          <td><button onclick="appendToDisplay('5')">5</button></td>
-          <td><button onclick="appendToDisplay('6')">6</button></td>
-          <td>
-            <button
-              data-operator="*"
-              onclick="appendToDisplay('*')"
-              style="background-color: blue; color: white"
-            >
-              *
-            </button>
-          </td>
-          <td>
-            <button
-              data-operator="sqrt"
-              onclick="calculateSquareRoot()"
-              style="background-color: cyan; color: black"
-            >
-              √
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td><button onclick="appendToDisplay('1')">1</button></td>
-          <td><button onclick="appendToDisplay('2')">2</button></td>
-          <td><button onclick="appendToDisplay('3')">3</button></td>
-          <td>
-            <button
-              data-operator="-"
-              onclick="appendToDisplay('-')"
-              style="background-color: blue; color: white"
-            >
-              -
-            </button>
-          </td>
-          <td>
-            <button
-              data-operator="%"
-              onclick="appendToDisplay('%')"
-              style="background-color: blue; color: white"
-            >
-              %
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td><button onclick="appendToDisplay('0')">0</button></td>
-          <td><button onclick="appendToDisplay('.')">.</button></td>
-          <td>
-            <button
-              onclick="clearDisplay()"
-              style="background-color: red; color: white"
-            >
-              C
-            </button>
-          </td>
-          <td>
-            <button
-              data-operator="+"
-              onclick="appendToDisplay('+')"
-              style="background-color: blue; color: white"
-            >
-              +
-            </button>
-          </td>
-          <td>
-            <button
-              onclick="calculateResult()"
-              style="background-color: rgb(21, 255, 0); color: white"
-            >
-              =
-            </button>
-          </td>
-        </tr>
-      </table>
+</head>
+<body>
+    <div class="container">
+        <fieldset id="container">
+            <form name="calculator">
+                <input id="display" type="text" name="display" readonly>
+                <input class="button digits" type="button" value="7" onclick="calculator.display.value += '7'">
+                <input class="button digits" type="button" value="8" onclick="calculator.display.value += '8'">
+                <input class="button digits" type="button" value="9" onclick="calculator.display.value += '9'">
+                <input class="button mathButtons" type="button" value="+" onclick="calculator.display.value += ' + '">
+                <input class="button mathButtons" type="button" value="(" onclick="calculator.display.value += ' ('"><br>
+                <input class="button digits" type="button" value="4" onclick="calculator.display.value += '4'">
+                <input class="button digits" type="button" value="5" onclick="calculator.display.value += '5'">
+                <input class="button digits" type="button" value="6" onclick="calculator.display.value += '6'">
+                <input class="button mathButtons" type="button" value="-" onclick="calculator.display.value += ' - '">
+                <input class="button mathButtons" type="button" value=")" onclick="calculator.display.value += ' )'"><br>
+                <input class="button digits" type="button" value="1" onclick="calculator.display.value += '1'">
+                <input class="button digits" type="button" value="2" onclick="calculator.display.value += '2'">
+                <input class="button digits" type="button" value="3" onclick="calculator.display.value += '3'">
+                <input class="button mathButtons" type="button" value="x" onclick="calculator.display.value += ' * '">
+                <input class="button mathButtons" type="button" value="^" onclick="calculator.display.value += ' ** '"><br>
+                <input id="clearButton" class="button" type="button" value="C" onclick="calculator.display.value = ''">
+                <input class="button digits" type="button" value="0" onclick="calculator.display.value += '0'">
+                <input class="button mathButtons equalsButton" type="button" value="=" onclick="calculator.display.value = eval(calculator.display.value)">
+                <input class="button mathButtons" type="button" value="/" onclick="calculator.display.value += ' / '">
+                <input class="button mathButtons" type="button" value="%" onclick="calculator.display.value += ' % '">
+            </form>
+        </fieldset>
     </div>
-    <script>
-      function appendToDisplay(value) {
-        document.getElementById("display").value += value;
-      }
-
-      function clearDisplay() {
-        document.getElementById("display").value = "";
-      }
-
-      function calculateResult() {
-        try {
-          document.getElementById("display").value = eval(
-            document.getElementById("display").value
-          );
-        } catch (error) {
-          document.getElementById("display").value = "Error";
-        }
-      }
-
-      function calculateSquareRoot() {
-        const inputValue = document.getElementById("display").value;
-        const result = Math.sqrt(parseFloat(inputValue));
-        document.getElementById("display").value = result;
-      }
-
-      function toggleSign() {
-        let value = document.getElementById("display").value;
-        document.getElementById("display").value = -parseFloat(value);
-      }
-      function appendToDisplay(value) {
-        document.getElementById("display").value += value;
-      }
-
-      // This function handles keyboard input
-      function handleKeyPress(event) {
-        const key = event.key;
-
-        // Check if the pressed key is an operator or a digit
-        if (key.match(/[0-9+\-*/.%C]/)) {
-          document.getElementById("display").value += key;
-        }
-
-        if (key === "Enter") {
-          calculateResult();
-        }
-      }
-      function appendToDisplay(value) {
-        document.getElementById("display").value += value;
-      }
-
-      function clearDisplay() {
-        document.getElementById("display").value = "";
-      }
-
-      function calculateResult() {
-        try {
-          document.getElementById("display").value = eval(
-            document.getElementById("display").value
-          );
-        } catch (error) {
-          document.getElementById("display").value = "Error";
-        }
-      }
-
-      function calculateSquareRoot() {
-        const inputValue = document.getElementById("display").value;
-        const result = Math.sqrt(parseFloat(inputValue));
-        document.getElementById("display").value = result;
-      }
-
-      function toggleSign() {
-        let value = document.getElementById("display").value;
-        document.getElementById("display").value = -parseFloat(value);
-      }
-
-      // This function handles keyboard input
-      function handleKeyPress(event) {
-        // Check for Enter key to evaluate the expression
-        if (event.key === "Enter") {
-          calculateResult();
-        }
-      }
-
-      function handleKeyDown(event) {
-        // Check for Backspace key to clear the last character
-        if (event.key === "Backspace") {
-          const display = document.getElementById("display");
-          display.value = display.value.slice(0, -1);
-        }
-      }
-    </script>
-  </body>
+</body>
 </html>
 ```
 ## OUTPUT:
-
+![Alt text](Code.png)
+![Alt text](Output.png)
 ## RESULT:
 The program for designing a standard calculator using HTML and CSS is executed successfully.
