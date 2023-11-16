@@ -1,4 +1,4 @@
-# Ex.08 Design of a Standard Calculator
+# EX 08 Design of a Standard Calculator
 
 ## Date:21/10/2023
 
